@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">MacrosProject</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_food_search">FoodSearchActivity</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "658536246883",
+    "project_id": "macrosproject-530a5",
+    "storage_bucket": "macrosproject-530a5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658536246883:android:c5248af8d0f1e22c975256",
+        "android_client_info": {
+          "package_name": "firstapp.gwu.macrosproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWXJTl5qwqhi-tauL3XuYS9AMtfu6G6nM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
