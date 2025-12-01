@@ -1,6 +1,7 @@
 package firstapp.gwu.macrosproject.data
 
 import android.content.Context
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
@@ -9,48 +10,70 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-private val Context.dataStore by preferencesDataStore(name = "user_prefs")
-object UserPrefsKeys {
-    val LANGUAGE = stringPreferencesKey("language")             // "en" or "es"
-    val GOAL_CAL = doublePreferencesKey("goal_calories")
-    val GOAL_PRO = doublePreferencesKey("goal_protein_g")
-    val GOAL_CAR = doublePreferencesKey("goal_carbs_g")
-    val GOAL_FAT = doublePreferencesKey("goal_fat_g")
-    val REMEMBER_ME = booleanPreferencesKey("remember_me")      // mirrors login switch
-}
-data class Goals(
-    val calories: Double = 2000.0,
-    val proteinG: Double = 120.0,
-    val carbsG: Double = 200.0,
-    val fatG: Double = 70.0
+//dataStoreInstance // single DataStore for the whole app
+private val Context.dataStore: androidx.datastore.core.DataStore<Preferences> by preferencesDataStore(
+    name = "user_prefs"
 )
-class UserPreferences(private val context: Context) {
-    val languageFlow: Flow<String> =
-        context.dataStore.data.map { it[UserPrefsKeys.LANGUAGE] ?: "en" }
-    val rememberMeFlow: Flow<Boolean> =
-        context.dataStore.data.map { it[UserPrefsKeys.REMEMBER_ME] ?: false }
-    val goalsFlow: Flow<Goals> =
-        context.dataStore.data.map {
-            Goals(
-                calories = it[UserPrefsKeys.GOAL_CAL] ?: 2000.0,
-                proteinG = it[UserPrefsKeys.GOAL_PRO] ?: 120.0,
-                carbsG = it[UserPrefsKeys.GOAL_CAR] ?: 200.0,
-                fatG = it[UserPrefsKeys.GOAL_FAT] ?: 70.0
-            )
-        }
 
-    suspend fun setLanguage(code: String) {
-        context.dataStore.edit { it[UserPrefsKeys.LANGUAGE] = code }
+//goalsModel // simple data class to hold macro + calorie goals
+data class Goals(
+    val calories: Double = 0.0,
+    val proteinG: Double = 0.0,
+    val carbsG: Double = 0.0,
+    val fatG: Double = 0.0
+)
+
+class UserPreferences(
+    private val context: Context,
+    private val userId: String? = null
+) {
+    //keySuffix // gives each user their own keys for goals + remember me
+    private fun keySuffix(): String = userId ?: "default"
+    //languageKey // global language setting shared across users on this device
+    private val LANGUAGE = stringPreferencesKey("language")
+    //goalKeys // per-user goal keys
+    private val CAL_KEY = doublePreferencesKey("calories_${keySuffix()}")
+    private val PRO_KEY = doublePreferencesKey("protein_${keySuffix()}")
+    private val CARB_KEY = doublePreferencesKey("carbs_${keySuffix()}")
+    private val FAT_KEY = doublePreferencesKey("fat_${keySuffix()}")
+    //rememberMeKey // per-user remember credentials flag
+    private val REMEMBER_KEY = booleanPreferencesKey("remember_global")
+    //languageFlow //"en" or "es" from DataStore
+    val languageFlow: Flow<String> = context.dataStore.data.map { prefs ->
+        prefs[LANGUAGE] ?: "en"
     }
-    suspend fun setRememberMe(enabled: Boolean) {
-        context.dataStore.edit { it[UserPrefsKeys.REMEMBER_ME] = enabled }
+    //goalsFlow // emits the current goals for this user
+    val goalsFlow: Flow<Goals> = context.dataStore.data.map { prefs ->
+        Goals(
+            calories = prefs[CAL_KEY] ?: 0.0,
+            proteinG = prefs[PRO_KEY] ?: 0.0,
+            carbsG   = prefs[CARB_KEY] ?: 0.0,
+            fatG     = prefs[FAT_KEY] ?: 0.0
+        )
     }
-    suspend fun setGoals(g: Goals) {
-        context.dataStore.edit {
-            it[UserPrefsKeys.GOAL_CAL] = g.calories
-            it[UserPrefsKeys.GOAL_PRO] = g.proteinG
-            it[UserPrefsKeys.GOAL_CAR] = g.carbsG
-            it[UserPrefsKeys.GOAL_FAT] = g.fatG
+    //rememberMeFlow //true if this user wanted credentials remembered
+    val rememberMeFlow: Flow<Boolean> = context.dataStore.data.map { prefs ->
+        prefs[REMEMBER_KEY] ?: false
+    }
+    //setLanguage // saves the current language to DataStore
+    suspend fun setLanguage(lang: String) {
+        context.dataStore.edit { prefs ->
+            prefs[LANGUAGE] = lang
+        }
+    }
+    //setGoals // saves all four goals for this user
+    suspend fun setGoals(goals: Goals) {
+        context.dataStore.edit { prefs ->
+            prefs[CAL_KEY] = goals.calories
+            prefs[PRO_KEY] = goals.proteinG
+            prefs[CARB_KEY] = goals.carbsG
+            prefs[FAT_KEY] = goals.fatG
+        }
+    }
+    //setRememberMe // turns the remember-credentials flag on or off for this user
+    suspend fun setRememberMe(remember: Boolean) {
+        context.dataStore.edit { prefs ->
+            prefs[REMEMBER_KEY] = remember
         }
     }
 }

@@ -15,6 +15,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MacrosProject">
         <activity
+            android:name=".SignUpActivity"
+            android:exported="false"
+            android:label="@string/title_activity_sign_up"
+            android:theme="@style/Theme.MacrosProject" />
+        <activity
+            android:name=".WeeklyHistoryActivity"
+            android:exported="false"
+            android:label="@string/title_activity_weekly_history"
+            android:theme="@style/Theme.MacrosProject" />
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false"
+            android:label="@string/title_activity_history"
+            android:theme="@style/Theme.MacrosProject" />
+        <activity
+            android:name=".DailyLogActivity"
+            android:exported="false"
+            android:label="@string/title_activity_daily_log"
+            android:theme="@style/Theme.MacrosProject" />
+        <activity
             android:name=".Settings"
             android:exported="false"
             android:label="@string/title_activity_settings"
@@ -27,7 +47,7 @@
 
         <meta-data
             android:name="CALORIE_NINJA_KEY"
-            android:value="MxIaGF/MN3Gs1dvYk/v1GA==KSIBuZr9445Yoiy7" />
+            android:value="key" />
 
         <activity
             android:name=".DashboardActivity"

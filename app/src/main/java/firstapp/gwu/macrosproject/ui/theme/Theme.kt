@@ -10,49 +10,51 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.material3.*
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import firstapp.gwu.macrosproject.R
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val BytesFontFamily = FontFamily(
+    Font(R.font.poppins_regular, weight = FontWeight.Normal),
+    Font(R.font.poppins_semibold, weight = FontWeight.SemiBold),
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+private val LightColors = lightColorScheme(
+    primary = BytesPurple,
+    secondary = BytesMint,
+    tertiary = BytesPink,
+    background = BytesBackground,
+    surface = BytesSurface,
+    onBackground = BytesNavy,
+    onSurface = BytesNavy,
+)
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+private val BytesTypography = Typography(
+    titleLarge = Typography().titleLarge.copy(
+        fontFamily = BytesFontFamily,
+        fontWeight = FontWeight.SemiBold
+    ),
+    bodyMedium = Typography().bodyMedium.copy(
+        fontFamily = BytesFontFamily
+    ),
+    bodySmall = Typography().bodySmall.copy(
+        fontFamily = BytesFontFamily
+    ),
+    labelSmall = Typography().labelSmall.copy(
+        fontFamily = BytesFontFamily
+    )
 )
 
 @Composable
 fun MacrosProjectTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
+        colorScheme = LightColors,
+        typography = BytesTypography,
+        shapes = MaterialTheme.shapes,
         content = content
     )
 }
