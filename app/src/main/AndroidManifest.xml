@@ -45,10 +45,6 @@
             android:label="@string/title_activity_food_search"
             android:theme="@style/Theme.MacrosProject" />
 
-        <meta-data
-            android:name="CALORIE_NINJA_KEY"
-            android:value="key" />
-
         <activity
             android:name=".DashboardActivity"
             android:exported="false"

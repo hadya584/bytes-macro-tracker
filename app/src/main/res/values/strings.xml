@@ -3,7 +3,7 @@
     <string name="title_activity_food_search">FoodSearchActivity</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_daily_log">DailyLogActivity</string>
-    <string name="app_name">MacrosProject</string>
+    <string name="app_name">Bytes</string>
 
     <string name="welcome_title">WELCOME</string>
     <string name="email_label">Enter your Email</string>

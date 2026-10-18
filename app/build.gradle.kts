@@ -1,9 +1,21 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
 }
+
+// Load the USDA API key from local.properties (gitignored), falling back to
+// local.defaults.properties (committed, DEMO_KEY) so the project always builds.
+fun loadProps(name: String) = Properties().apply {
+    val f = rootProject.file(name)
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+val usdaApiKey: String = loadProps("local.properties").getProperty("USDA_API_KEY")
+    ?: loadProps("local.defaults.properties").getProperty("USDA_API_KEY")
+    ?: "DEMO_KEY"
 
 android {
     namespace = "firstapp.gwu.macrosproject"
@@ -16,8 +28,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        val apiKey = providers.gradleProperty("CALORIE_NINJA_KEY").orNull ?: ""
-        resValue("string", "calorie_ninja_key", apiKey)
+        buildConfigField("String", "USDA_API_KEY", "\"$usdaApiKey\"")
     }
 
     buildTypes {

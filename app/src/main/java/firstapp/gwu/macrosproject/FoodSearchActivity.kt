@@ -1,8 +1,6 @@
 package firstapp.gwu.macrosproject
 
 import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -51,10 +49,6 @@ class FoodSearchActivity : ComponentActivity() {
     }
 }
 
-fun Context.readCaloriesNinjaKey(): String {
-    val ai = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
-    return ai.metaData?.getString("CALORIE_NINJA_KEY", "") ?: ""
-}
 @Composable
 fun FoodSearchScreen() {
     val context = LocalContext.current
@@ -63,7 +57,8 @@ fun FoodSearchScreen() {
     //datastore + compose: https://developer.android.com/topic/libraries/architecture/datastore
     val prefsData = remember { UserPreferences(context) }
     val lang by prefsData.languageFlow.collectAsState(initial = "en")
-    val apiKey = remember { context.readCaloriesNinjaKey() }
+    //usda api key injected at build time from local.properties (see app/build.gradle.kts)
+    val apiKey = BuildConfig.USDA_API_KEY
     var query by remember { mutableStateOf("") }
     var foodList by remember { mutableStateOf<List<FoodItem>>(emptyList()) }
     var isLoading by remember { mutableStateOf(false) }
