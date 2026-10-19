@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="app/src/main/res/drawable/bytes_logo.jpeg" alt="Bytes logo" width="320" />
-
 # Bytes: Macro & Calorie Tracker for Android
 
 **Search real nutrition data, log what you eat, and watch your daily macros fill up in real time.**
@@ -19,14 +17,14 @@
 
 Bytes is a native Android app for tracking calories, protein, carbs, and fat. Users search the USDA FoodData Central database, log foods with custom serving sizes, and see their progress against personal goals through animated macro rings. Every day's log syncs to the cloud, so users can browse a monthly calendar of past days and open any one for a full breakdown.
 
-<!-- Screenshots: add images to a /screenshots folder and uncomment.
+
 <p align="center">
   <img src="screenshots/login.png" width="200" />
   <img src="screenshots/dashboard.png" width="200" />
   <img src="screenshots/search.png" width="200" />
   <img src="screenshots/history.png" width="200" />
 </p>
--->
+
 
 ## Features
 
