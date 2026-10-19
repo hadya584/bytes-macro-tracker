@@ -4,7 +4,7 @@
 
 # Bytes: Macro & Calorie Tracker for Android
 
-**Search real nutrition data, log what you eat, and watch your daily macros fill up in real time, in English or Spanish.**
+**Search real nutrition data, log what you eat, and watch your daily macros fill up in real time.**
 
 ![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=white)
 ![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4?logo=jetpackcompose&logoColor=white)
@@ -119,9 +119,6 @@ app/src/main/java/firstapp/gwu/macrosproject/
 3. **Track.** The dashboard rings fill as you log. Tap the rings card to review and edit today's entries.
 4. **Look back.** Open the history calendar to see each day's progress at a glance, then tap a day for details.
 
-## Team
-
-Built as a final project for an Android development course at The George Washington University.
 
 <!-- Add contributors and roles, e.g.:
 - **Hadya Osman** — ...
